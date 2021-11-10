@@ -30,6 +30,8 @@ services:
       MYSQL_ROOT_PASSWORD: secret
     volumes:
       - ./todo-mysql-data/data:/var/lib/mysql
+    networks:
+      - testdb
 
 networks:
   testdb:
