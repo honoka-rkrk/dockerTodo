@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import axios from "axios";
+import Todo from './Todo/Component/main';
 
 function App() {
   const [data, setData] = useState(null);
@@ -12,6 +13,7 @@ function App() {
   return (
     <div className="App">
       {data}
+      <Todo />
     </div>
   );
 }

@@ -3,6 +3,8 @@ import axios from 'axios';
 const SERVER_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const getApi = async (path: string) => {
+    console.log(SERVER_URL);
+    console.log(path);
     const url = SERVER_URL + path;
     try {
         const response = await axios.get(url);
