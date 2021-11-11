@@ -1,13 +1,15 @@
 "use strict";
 
 const express = require("express");
+const app = express();
 
+app.use(require('body-parser').json());
 //Constants
 const PORT = 8080;
 const HOST = "0.0.0.0";
 
 //App
-const app = express();
+
 const allowCrossDomain = function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
@@ -45,6 +47,16 @@ app.get("/api/todos", (req, res, next) => {
     console.log("Table created");
   });
 
+  // connection.query(
+  //   `INSERT INTO todos VALUES ("todo1")`,
+  //   function (error, results, fields) {
+  //     if (error) {
+  //       res.send(error);
+  //       throw error;
+  //     }
+  //   }
+  // );
+
   connection.query("SELECT * FROM todos", function (error, result, fields) {
     if (error) {
       res.send(error);
@@ -57,31 +69,23 @@ app.get("/api/todos", (req, res, next) => {
 //Todoの新規登録
 app.post("/api/todos", (req, res, next) => {
   const { content } = req.body;
-  if (typeof content !== "string" || !title) {
+  console.log(content);
+  if (typeof content !== "string") {
     //contentがリクエストに含まれない場合はステータスコード400
     const err = new Error("content is required");
     err.statusCode = 400;
     return next(err);
   }
   //Todoの登録
-  connection.connect(function (err) {
-    if (err) {
-      res.send(err);
-      throw err;
-    }
-    console.log("Connected!");
-  });
   connection.query(
-    `INSERT INTO todos VALUES ${content}`,
+    `INSERT INTO todos VALUES ('${content}')`,
     function (error, results, fields) {
       if (error) {
         res.send(error);
         throw error;
       }
-      connection.end();
     }
   );
-  c;
 });
 
 app.get("/", (req, res) => {

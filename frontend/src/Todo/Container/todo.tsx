@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import CompTodo from '../Component/todo';
 import { postApi, getApi } from '../../Api/api';
-
+import { TodoType } from './type';
 const Todo: React.FC = () => {
     const [content, setContent] = useState<string>('');
+    const [datas, setDatas] = useState<Array<TodoType>>([]);
 
     //内容が変更されたとき
     const handleContentChange = (
@@ -18,6 +19,7 @@ const Todo: React.FC = () => {
             const api = await getApi('/api/todos/');
             if (api.success) {
                 console.log(api.data);
+                setDatas(api.data);
             }
         }
         getTodos();
@@ -39,12 +41,20 @@ const Todo: React.FC = () => {
                 }
             }
             registerApi();
+            getTodos();
         },
         [content],
     )
 
+    const getTodos = async () => {
+        const api = await getApi('/api/todos/');
+        if (api.success) {
+            console.log(api.data);
+            setDatas(api.data);
+        }
+    }
 
-    return (<CompTodo handleContentChange={handleContentChange} handleRegister={handleRegister} />);
+    return (<CompTodo handleContentChange={handleContentChange} handleRegister={handleRegister} datas={datas} />);
 };
 
 export default Todo;
